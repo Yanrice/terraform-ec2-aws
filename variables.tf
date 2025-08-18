@@ -13,7 +13,7 @@ variable "project_name" {
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type = string
-  default = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 AMI (update based on region)
+  default = "ami-09e6f87a47903347c" # Amazon Linux 2 AMI (update based on region)
 }
 
 variable "instance_type" {
@@ -22,7 +22,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "key_pair_name" {
+variable "test1" {
   description = "Name of the SSH key pair"
   type = string
 }
