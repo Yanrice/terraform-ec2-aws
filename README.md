@@ -27,6 +27,8 @@ SSH key pair in AWS
 
 * New Item > Pipeline
 * Name: e.g., "EC2-Deployment"
+* Check "This project is parameterized" and add a boolean parameter:
+* Name: DESTROY, Default Value: unchecked, Description: "Check to destroy the infrastructure"
 * In Pipeline section, select "Pipeline script from SCM"
 * SCM: Git
 * Repository URL: Your GitHub repo URL (e.g., https://github.com/yourusername/your-repo.git)
@@ -41,22 +43,34 @@ SSH key pair in AWS
 
 * Checkout: Pulls code from GitHub.
 * Terraform Init: Initializes Terraform.
-* Terraform Plan: Generates execution plan.
-* Approval: Manual approval step before apply (on main branch).
-* Terraform Apply: Applies the changes to deploy EC2.
+* Terraform Plan: Generates execution plan (skipped if DESTROY is checked).
+* Approval: Manual approval step before apply (skipped if DESTROY is checked).
+* Terraform Apply: Applies the changes to deploy EC2 (skipped if DESTROY is checked).
+* Terraform Destroy: Destroys the infrastructure if DESTROY parameter is checked.
+
+## Running the Pipeline
+
+* To deploy: Run the pipeline with DESTROY unchecked (default).
+* To destroy: Run the pipeline with DESTROY checked.
+* Monitor the Jenkins console output for the EC2 public IP (on apply) or confirmation of destruction.
 
 ## Variables
+
 Ensure `terraform.tfvars` or variables are set appropriately. For security, avoid committing sensitive vars to Git; set them in Jenkins environment if needed.
 
 ## Notes
 
-* Ensure Terraform is installed on the Jenkins agent (e.g., via system packages or Docker agent with Terraform image).
+* Ensure Terraform is installed on the Jenkins agent (e.g., via system packages or Docker agent with Terraform image: `hashicorp/terraform:1.5.7`).
 * For production, add more security, like locking Terraform state with S3 backend.
-* If using a different branch, adjust the 'when' condition in Approval stage.
-* After deployment, check the output in Jenkins console for the EC2 public IP.
+* The destroy stage runs with `-auto-approve` for automation; use with caution.
+* Update `AWS_DEFAULT_REGION` in `Jenkinsfile` to match your Terraform `aws_region`.
 
 ## Cleanup
 
-Run `terraform destroy` manually or add a destroy stage in the pipeline (with caution).
+To destroy the infrastructure:
+
+* In Jenkins, click "Build with Parameters".
+* Check the DESTROY box.
+* lick Build.
 
 Add the `Jenkinsfile` to your repository root, commit, and push to GitHub.
