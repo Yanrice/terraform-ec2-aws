@@ -22,7 +22,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "test1" {
+variable "test1.pem" {
   description = "Name of the SSH key pair"
   type = string
 }
