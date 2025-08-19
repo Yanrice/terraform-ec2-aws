@@ -22,7 +22,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "test1.pem" {
+variable "kanban_board" {
   description = "Name of the SSH key pair"
   type = string
 }
