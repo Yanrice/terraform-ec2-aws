@@ -23,6 +23,6 @@ variable "instance_type" {
 }
 
 variable "kanban_board" {
-  description = "Name of the SSH key pair"
+  description = "kanban_board"
   type = string
 }
