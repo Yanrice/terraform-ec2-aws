@@ -22,7 +22,3 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "kanban_board" {
-  description = "kanban_board"
-  type = string
-}
