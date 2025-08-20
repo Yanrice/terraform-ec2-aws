@@ -72,8 +72,7 @@ resource "aws_instance" "app" {
   instance_type = var.instance_type
   subnet_id = aws_subnet.public.id
   security_groups = [aws_security_group.ec2_sg.id]
-  key_name = var.key_pair_name
-
+  
   tags = {
     Name = "${var.project_name}-ec2"
   }
